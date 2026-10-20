@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<title>Diagnóstico grátis | Nomatrix</title>
+<style>
+:root{--r:#FF3131;--e:cubic-bezier(.2,.7,.2,1)}*{box-sizing:border-box}
+body{margin:0;background:#000;color:#fff;font:18px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:600px;margin:0 auto;padding:28px 18px 120px}
+h1{font-size:clamp(38px,10vw,60px);line-height:.98;font-weight:900;letter-spacing:-.035em;margin:.4em 0}
+h2{font-size:clamp(27px,6.5vw,36px);line-height:1.05;font-weight:900;letter-spacing:-.025em;margin:.5em 0}
+p{color:#bbb}small{color:#999;display:block;margin-top:10px}.r{color:var(--r)}
+.bar{height:8px;background:#222}.bar i{display:block;height:100%;width:0;background:var(--r);transition:width .4s var(--e)}
+.o,.btn,input,textarea{display:block;width:100%;font:inherit;color:#fff;background:#000;border:2px solid #fff;border-radius:0;padding:16px;margin:10px 0;transition:transform .15s var(--e),background .15s,color .15s,border-color .15s}
+.o{text-align:left;cursor:pointer;font-weight:700}
+.o:hover,.o:focus-visible{border-color:var(--r);color:var(--r);outline:0}
+.o:active,.btn:active,#fab:active{transform:scale(.97)}
+input:focus,textarea:focus{border-color:var(--r);outline:0}textarea{min-height:120px}
+.btn{background:var(--r);border-color:var(--r);color:#000;font-weight:900;text-align:center;text-decoration:none;cursor:pointer}
+.k{border-color:var(--r);color:#fff;font-size:22px;cursor:default}.k:hover{color:#fff;transform:none}
+#fab{position:fixed;right:16px;bottom:16px;z-index:9;background:var(--r);color:#000;padding:16px 24px;border-radius:99px;font-weight:900;text-decoration:none;box-shadow:0 8px 28px #ff313077;transition:transform .15s var(--e)}
+.rw{display:grid;grid-template-columns:92px 1fr 40px;gap:10px;align-items:center;margin:12px 0;font-size:15px}.rw span{color:#bbb}.rw div{height:10px;background:#222}.rw i{display:block;height:100%;width:0;background:#777;transition:width 1.1s var(--e)}.rw.wk i{background:var(--r)}.rw b{text-align:right}
+.bk{display:flex;justify-content:space-between;align-items:center;max-width:600px;margin:18px auto 0;padding:0 18px;font-size:15px}.bk a{color:#999;text-decoration:none}.bk a:hover{color:#fff}.bk img{height:30px;width:auto;display:block}
+.tr{display:flex;gap:6px;margin:14px 0 2px}.tr span{flex:1;text-align:center;font-size:13px;font-weight:700;color:#555;border-top:3px solid #222;padding-top:6px;transition:color .3s,border-color .3s}.tr .on{color:var(--r);border-color:var(--r)}.tr .ok{color:#bbb;border-color:#bbb}
+h1,h2,.tr span{font-family:"Space Grotesk",Inter,system-ui,sans-serif}h1,h2{font-weight:700}
+#app>*{animation:up .4s var(--e) both}@keyframes up{from{opacity:0;transform:translateY(14px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div class="bk"><a href="index.html"><img src="logo.png" alt="Nomatrix"></a><a href="index.html">Voltar ao início</a></div>
+<main id="app"></main>
+<a id="fab" rel="noopener">Falar no WhatsApp</a>
+<script>
+const C={api:'https://SEU-WORKER.workers.dev',wa:'258864352542'};
+const PIL=['Marketing','Vendas','Gestão','Processos'],FA=['Arranque','Crescimento','Escala'];
+const P=[['Landing Page em 7 dias','Marketing Crescimento: Conteúdo e Anúncios','Marketing Escala: Assessoria Mensal'],
+['Vendas Arranque: Guião e Seguimento','Vendas Crescimento: Funil no WhatsApp','Vendas Escala: Equipa e Metas'],
+['Gestão Arranque: Finanças Básicas','Gestão Crescimento: Painel de Números','Gestão Escala: Metas e Rotina'],
+['Processos Arranque: Tarefas Organizadas','Processos Crescimento: Registo de Clientes','Processos Escala: Sistema e Automação']];
+const Q=[
+{q:'Como te chamas',t:'text',n:'Vou guardando as tuas respostas enquanto avanças, para te poder ajudar mesmo que não chegues ao fim'},
+{q:'O teu WhatsApp, com indicativo (ex: 258...)',t:'tel'},
+{q:'Como se chama o teu negócio',t:'text'},
+{q:'Quantas pessoas trabalham contigo',f:1,o:['Só eu','2 a 5','6 a 15','Mais de 15']},
+{q:'Quanto fatura o negócio por mês, mais ou menos',f:1,o:['Menos de 50 mil MT','50 a 200 mil MT','200 mil a 1 milhão MT','Mais de 1 milhão MT']},
+{q:'Quem vende hoje',f:1,o:['Eu sozinho','Alguém da equipa, mas sem método','Equipa de vendas dedicada']},
+{q:'Em que área trabalhas',o:['Comércio','Serviços','Restauração e eventos','Educação','Outra']}];
+[[['Como os clientes te encontram hoje',['Só por boca a boca','Redes sociais, sem plano','Tenho plano e anúncios a funcionar']],
+['Postas conteúdo com que frequência',['Quase nunca','Quando me lembro','Toda a semana, com calendário']],
+['Tens uma oferta que explicas numa frase',['Não','Mais ou menos','Sim, e os clientes percebem']]],
+[['Quando alguém pergunta o preço, o que acontece',['Respondo e a pessoa some','Faço seguimento às vezes','Tenho um processo para fechar']],
+['Sabes quantos orçamentos viraram venda no último mês',['Nem faço ideia','Mais ou menos','Sim, tenho os números']],
+['Os clientes voltam a comprar',['Raramente','Alguns','Sim, e tenho forma de os trazer de volta']]],
+[['Sabes quanto lucras no fim do mês',['Não, o dinheiro do negócio mistura-se com o meu','Mais ou menos','Sim, com números reais']],
+['Tens metas definidas para os próximos meses',['Não','Só na cabeça','Sim, escritas e acompanhadas']],
+['Se faltares uma semana, o negócio aguenta',['Pára tudo','Aguenta com sufoco','Aguenta sem problema']]],
+[['As tarefas repetidas estão organizadas',['Cada dia é de um jeito','Algumas estão','Sim, todos sabem o que fazer']],
+['Registas clientes e pedidos',['Não','No caderno ou no WhatsApp','Num sistema ou folha organizada']],
+['Quando algo corre mal, o que fazes',['Apago o fogo','Aprendo, mas repito o erro','Corrijo o processo para não repetir']]]
+].forEach((a,p)=>a.forEach(([q,o])=>Q.push({p,q,o})));
+Q.push({q:'Se pudesses resolver só uma coisa no negócio já, qual era',t:'area'});
+
+const $=s=>document.querySelector(s),app=$('#app'),A=[];
+let i=-1,fin=false;const id=(crypto.randomUUID?crypto.randomUUID():Date.now()+''+Math.random()).slice(0,36);
+$('#fab').href='https://wa.me/'+C.wa;
+
+function calc(){let g=0,s=[0,0,0,0],c=[0,0,0,0];
+ Q.forEach((q,n)=>{const v=A[n];if(v==null)return;if(q.f)g+=v;if(q.p!=null){s[q.p]+=v;c[q.p]++}});
+ let w=null;s.forEach((v,p)=>{if(c[p]==3&&(w==null||v<s[w]))w=p});
+ return{f:g<3?0:g<6?1:2,s,w}}
+function pack(){const{f,s,w}=calc();
+ return{nome:A[0],whatsapp:A[1],negocio:A[2]||'',fase:FA[f],fraco:w==null?'n/d':PIL[w],
+ pontos:PIL.map((p,k)=>p+' '+s[k]+'/6').join(', '),
+ resumo:Q.map((q,n)=>A[n]==null?null:[q.q,q.o?q.o[A[n]]:A[n]]).filter(Boolean)}}
+function save(done){if(!A[0]||!A[1]||(fin&&!done))return;
+ fetch(C.api+'/save',{method:'POST',keepalive:true,body:JSON.stringify({id,step:A.filter(x=>x!=null).length,done:!!done,data:pack()})}).catch(()=>{})}
+addEventListener('visibilitychange',()=>document.hidden&&save(false));
+
+function next(v){A[i]=v;save(false);i++;show()}
+const D=['Como os clientes te encontram e porque te escolhem','O que acontece quando alguém pergunta o preço','Saber quanto entra, quanto sai e para onde vais','O negócio a funcionar sem depender só de ti'];
+function tr(q){const p=q.p,e=i==Q.length-1;
+ const t=PIL.map((n,j)=>`<span class="${p==j?'on':((p!=null&&p>j)||(p==null&&e))?'ok':''}">${n}</span>`).join('');
+ const l=p!=null?`Pilar ${p+1} de 4: ${D[p]}`:i<7?'Sobre ti e o negócio':'Para fechar';
+ return `<div class="tr">${t}</div><small>${l} (${i+1} de ${Q.length})</small>`}
+function show(){
+ if(i<0){app.innerHTML='<h1>Onde é que o teu negócio está a perder dinheiro?</h1><p>20 perguntas, uns 5 minutos. No fim digo-te o ponto mais fraco e o pacote certo para o resolver</p><button class="btn" id="go">Começar o diagnóstico grátis</button>';
+  $('#go').onclick=()=>{i=0;show()};return}
+ if(i>=Q.length)return end();
+ const q=Q[i];
+ app.innerHTML=`<div class="bar"><i style="width:${i/Q.length*100}%"></i></div>${tr(q)}<h2>${q.q}</h2><div id="b"></div>`+(q.n?`<small>${q.n}</small>`:'');
+ const b=$('#b');
+ if(q.o)q.o.forEach((t,n)=>{const e=document.createElement('button');e.className='o';e.textContent=t;e.onclick=()=>next(n);b.append(e)});
+ else{const e=document.createElement(q.t=='area'?'textarea':'input');if(q.t=='tel')e.type='tel';b.append(e);e.focus();
+  const c=document.createElement('button');c.className='btn';c.textContent='Continuar';
+  c.onclick=()=>{const v=e.value.trim();if(!v||(q.t=='tel'&&v.replace(/\D/g,'').length<9))return e.focus();next(v)};b.append(c)}}
+function end(){save(true);fin=true;const{f,w,s}=calc(),k=w==null?0:w,pk=P[k][f];
+ app.innerHTML=`<div class="bar"><i style="width:100%"></i></div><h1>O teu ponto fraco é ${PIL[k]}</h1><div class="ch">${PIL.map((n,j)=>`<div class="rw${j==k?" wk":""}"><span>${n}</span><div><i data-w="${s[j]/6*100}"></i></div><b>${s[j]}/6</b></div>`).join("")}</div><small>Barra cheia é pilar forte, barra curta é onde está o buraco</small><p style="margin-top:22px">O pacote certo para ti</p><div class="o k"><b>${pk}</b></div><a class="btn" id="wa">Falar com um assessor da Nomatrix</a><small>Um assessor manda-te o preço direto no WhatsApp</small>`;
+ requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll('.ch i').forEach(e=>e.style.width=e.dataset.w+'%')));
+ $('#wa').href='https://wa.me/'+C.wa+'?text='+encodeURIComponent('Fiz o diagnóstico da Nomatrix. Quero saber o preço do pacote: '+pk)}
+show();
+</script></body></html>
